@@ -1,0 +1,80 @@
+<form onsubmit="movetoStorage(event)">
+    <label>Choose Amount:</label>
+    <input type="number" id="name" name="details" required>
+      <label>Choose Category:</label>
+      <input type="text" id="email" name="eaddres" required>
+      <select class="form-select" name="option" id="option">
+        <option  id="movie">Movie</option>
+        <option  id="food">Food</option>
+        <option  id="fuel">Fuel</option>
+     </select>
+      <button>Add Expense</button>
+
+
+</form>
+
+<ul id="listofItems"></ul>
+
+
+
+<script>
+
+function movetoStorage(event){
+
+event.preventDefault()
+
+const name = event.target.details.value
+const email = event.target.eaddres.value
+const opt = event.target.option.value
+const obj = {
+    name,
+    email,
+    opt
+    
+}
+
+localStorage.getItem(obj.email,JSON.stringify(obj))
+
+showUserOnScreen(obj)
+
+}
+
+function showUserOnScreen(obj){
+const parentEle = document.getElementById('listofItems')
+const childEle = document.createElement('li')
+
+childEle.textContent = obj.name + '---' + obj.email+'---'+obj.opt
+
+const deleteButtn = document.createElement('input')
+deleteButtn.type = 'button'
+deleteButtn.value = 'Delete'
+
+const editButtn = document.createElement('input')
+editButtn.type = 'button'
+editButtn.value = 'Edit'
+ 
+deleteButtn.onclick=()=>{
+
+    localStorage.removeItem(obj.email)
+    parentEle.removeChild(childEle)
+}
+editButtn.onclick=()=>{
+    localStorage.removeItem(obj.email)
+    parentEle.removeChild(childEle)
+
+    document.getElementById('name').value=obj.name
+    document.getElementById('email').value=obj.email
+    document.getElementById('option').value=obj.opt
+
+}
+
+
+
+childEle.appendChild(deleteButtn)
+childEle.appendChild(editButtn)
+parentEle.appendChild(childEle)
+
+}
+
+
+</script>
